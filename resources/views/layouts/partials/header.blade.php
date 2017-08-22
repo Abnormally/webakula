@@ -19,14 +19,13 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             {{-- Left Side Of Navbar --}}
             <ul class="nav navbar-nav">
-                &nbsp;
+                <li><a href="{{ route('guestbook.index') }}">Гостевая</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 {{-- Authentication Links --}}
                 @if (Auth::guest())
-                    <li><a href="{{ route('guestbook.index') }}">Гостевая</a></li>
                     <li class="dropdown">
                         <a href="" onclick="event.preventDefault()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Меню <span class="caret"></span>

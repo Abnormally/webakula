@@ -9,10 +9,10 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Тестовое задание от web-акула</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    Создание гостевой книги и админки для неё на базе Laravel.
                 </div>
             </div>
         </div>

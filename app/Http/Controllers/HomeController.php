@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\GuestbookPost;
 
 class HomeController extends Controller
 {
@@ -17,6 +18,8 @@ class HomeController extends Controller
     }
 
     public function guestbook() {
-        return view('guestbook.guestbook');
+        return view('guestbook.guestbook', [
+            'posts' => GuestbookPost::getLatest(),
+        ]);
     }
 }

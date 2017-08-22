@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Заголовок страницы')</title>
     <meta name="description" content="@yield('description', 'Описание страницы')">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
     @yield('stylesheets')
 </head>
 
@@ -26,7 +26,7 @@
 
     {{-- Scripts --}}
     <div style="display: none">
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         @yield('scripts')
     </div>
 </body>

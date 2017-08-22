@@ -15,12 +15,14 @@ class CreateGuestbookPostsTable extends Migration
     {
         Schema::create('guestbook_posts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->default(0);
             $table->string('name', 100);
             $table->text('content');
             $table->string('email');
             $table->string('avatar')->nullable();
             $table->timestamps();
-            $table->integer('status')->nullable();
+            $table->integer('status')->nullable()->default(0);
+            $table->unsignedTinyInteger('reaction')->nullable()->default(0);
         });
     }
 
