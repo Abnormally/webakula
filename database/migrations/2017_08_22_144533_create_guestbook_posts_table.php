@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateGuestbookPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,24 +13,24 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('guestbook_posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->string('name', 100);
+            $table->text('content');
+            $table->string('email');
             $table->string('avatar')->nullable();
-            $table->rememberToken();
             $table->timestamps();
+            $table->integer('status')->nullable();
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Drop the table.
      *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('guestbook_posts');
     }
 }

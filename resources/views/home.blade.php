@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title', 'Тестовое задание web-акула')
+
+@section('description', 'Тестовое задание от компании web-акула. Создание гостевой страницы с отзывами.')
+
 @section('content')
 <div class="container">
     <div class="row">
