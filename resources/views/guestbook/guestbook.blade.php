@@ -147,9 +147,8 @@
                     }
                 } else {
                     new Noty({
-                        layout: 'bottomCenter',
+                        layout: 'topLeft',
                         type: 'success',
-                        modal: true,
                         text: 'Спасибо за ваш отзыв, ' + response.name
                         + '. Он появится на странице, как только будет одобрен модератором. <br>'
                         + '<br> Для закрытия этого сообщения просто нажмите на него.',

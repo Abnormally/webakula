@@ -49,6 +49,11 @@ class AdminController extends Controller
         return json_encode(GuestbookPost::getBadges());
     }
 
+    /**
+     * Show unpublished posts.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function unpublishedPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
@@ -56,6 +61,11 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Show published posts.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function publishedPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
@@ -63,10 +73,25 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Show hidden posts.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function hiddenPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
             'posts' => GuestbookPost::getHiddenPosts()
         ]);
+    }
+
+    public function deletePost($id) {
+        $post = GuestbookPost::find($id);
+        if (Auth::user()->role < 3) $this->createNotFound();
+
+        $post->status = null;
+        $post->save();
+
+        return $id;
     }
 }

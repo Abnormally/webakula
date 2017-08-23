@@ -20,11 +20,16 @@ Route::group(['prefix' => 'guestbook'], function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@index')->name('admin.index');
-    Route::get('/getbadges', 'AdminController@getBadges')->name('admin.getbadges');
+    Route::get('getbadges', 'AdminController@getBadges')->name('admin.getbadges');
 
-    Route::get('/published', 'AdminController@publishedPage')->name('admin.posts.published');
-    Route::get('/unpublished', 'AdminController@unpublishedPage')->name('admin.posts.unpublished');
-    Route::get('/hidden', 'AdminController@hiddenPage')->name('admin.posts.hidden');
+    Route::get('published', 'AdminController@publishedPage')->name('admin.posts.published');
+    Route::get('unpublished', 'AdminController@unpublishedPage')->name('admin.posts.unpublished');
+    Route::get('hidden', 'AdminController@hiddenPage')->name('admin.posts.hidden');
+
+    Route::post('remove/{$id}', [
+        'as' => 'admin.remove',
+        'uses' =>'AdminController@deletePost'
+    ])->where('id', '[0-9]+');
 });
 
 Route::get('login', [
@@ -40,6 +45,16 @@ Route::post('login', [
 Route::post('logout', [
     'as' => 'logout',
     'uses' => 'Auth\LoginController@logout'
+]);
+
+Route::get('register', [
+    'as' => 'register',
+    'uses' => 'Auth\RegisterController@showRegistrationForm'
+]);
+
+Route::post('register', [
+    'as' => '',
+    'uses' => 'Auth\RegisterController@register'
 ]);
 
 //
@@ -60,13 +75,3 @@ Route::post('logout', [
 //    'uses' => 'Auth\ResetPasswordController@showResetForm'
 //]);
 //
-
-Route::get('register', [
-    'as' => 'register',
-    'uses' => 'Auth\RegisterController@showRegistrationForm'
-]);
-
-Route::post('register', [
-    'as' => '',
-    'uses' => 'Auth\RegisterController@register'
-]);

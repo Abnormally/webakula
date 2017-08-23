@@ -31,7 +31,7 @@
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/noty.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/validator.min.js') }}"></script>
-        @if(Auth::user()->role > 2)
+        @if(!Auth::guest() && Auth::user()->role > 2)
         <script type="text/javascript">
             $(document).ready(function () {
                 $.get("{{ route('admin.getbadges') }}", [], function (data) {

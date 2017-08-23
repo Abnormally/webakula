@@ -50,4 +50,11 @@ class GuestbookPost extends Model
             ->orderBy('created_at', 'desc')
             ->get();
     }
+
+    public static function getById($id) {
+        $id = (int) $id;
+
+        return self::where('id', $id)
+            ->get();
+    }
 }
