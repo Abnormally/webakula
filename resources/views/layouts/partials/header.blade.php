@@ -28,7 +28,7 @@
                 @if (Auth::guest())
                     <li class="dropdown">
                         <a href="" onclick="event.preventDefault()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            Меню <span class="caret"></span>
+                            <span class="fa fa-user"></span> Меню <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
@@ -39,7 +39,7 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                            <span class="fa fa-user"></span> {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">

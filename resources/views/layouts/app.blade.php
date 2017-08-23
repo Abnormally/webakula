@@ -8,6 +8,8 @@
     <title>@yield('title', 'Заголовок страницы')</title>
     <meta name="description" content="@yield('description', 'Описание страницы')">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/noty.css') }}">
     @yield('stylesheets')
 </head>
 
@@ -27,6 +29,8 @@
     {{-- Scripts --}}
     <div style="display: none">
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/noty.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/validator.min.js') }}"></script>
         @yield('scripts')
     </div>
 </body>
