@@ -19,6 +19,11 @@ class HomeController extends Controller
         return view('home');
     }
 
+    /**
+     * Show the GuestBook page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function guestbook() {
         return view('guestbook.guestbook', [
             'posts' => GuestbookPost::getLatest(),
@@ -26,6 +31,8 @@ class HomeController extends Controller
     }
 
     /**
+     * Validate and insert new post.
+     *
      * @param Request $request
      * @return string
      */

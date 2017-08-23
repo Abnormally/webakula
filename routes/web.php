@@ -18,6 +18,11 @@ Route::group(['prefix' => 'guestbook'], function () {
     Route::post('/', 'HomeController@addPost')->name('guestbook.post');
 });
 
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', 'AdminController@index')->name('admin.index');
+    Route::get('/getbadges', 'AdminController@getBadges')->name('admin.getbadges');
+});
+
 Route::get('login', [
     'as' => 'login',
     'uses' => 'Auth\LoginController@showLoginForm'

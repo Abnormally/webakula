@@ -37,6 +37,21 @@
                         </ul>
                     </li>
                 @else
+                    @if(Auth::user()->role > 2)
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="fa fa-user-plus"></span> Администратор <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <!--<li><a href="{{ route('admin.index') }}">Админка</a><li>-->
+                            <li class="dropdown-header">Отзывы</li>
+                            <li><a>Ожидающие решения <span id="posts-new" class="badge"></span></a></li>
+                            <li><a>Опубликованные <span id="posts-published" class="badge"></a></li>
+                            <li><a>Скрытые <span id="posts-hidden" class="badge"></a></li>
+                        </ul>
+                    </li>
+                    @endif
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <span class="fa fa-user"></span> {{ Auth::user()->name }} <span class="caret"></span>
