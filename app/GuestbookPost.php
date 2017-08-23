@@ -18,7 +18,7 @@ class GuestbookPost extends Model
 
     public static function getLatest() {
         return self::where('status', 2)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->take(10)
             ->get();
     }
@@ -30,6 +30,24 @@ class GuestbookPost extends Model
         return DB::table('guestbook_posts')
             ->select('status', DB::raw('count(*) as total'))
             ->groupBy('status')
+            ->get();
+    }
+
+    public static function getUnpublished() {
+        return self::where('status', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    public static function getPublished() {
+        return self::where('status', 2)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    public static function getHiddenPosts() {
+        return self::where('status', 3)
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 }

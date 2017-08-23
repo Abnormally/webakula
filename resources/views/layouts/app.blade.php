@@ -32,7 +32,29 @@
         <script type="text/javascript" src="{{ asset('js/noty.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/validator.min.js') }}"></script>
         @if(Auth::user()->role > 2)
-        <script type="text/javascript" src="{{ asset('js/getbadges.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.get("{{ route('admin.getbadges') }}", [], function (data) {
+                    data = JSON.parse(data);
+
+                    var badges = {
+                        waiting: $('#posts-new'),
+                        published: $('#posts-published'),
+                        hidden: $('#posts-hidden')
+                    };
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].status === 0) {
+                            badges.waiting.empty().append(data[i].total);
+                        } else if (data[i].status === 2) {
+                            badges.published.empty().append(data[i].total);
+                        } else if (data[i].status === 3) {
+                            badges.hidden.empty().append(data[i].total);
+                        }
+                    }
+                });
+            });
+        </script>
         @endif
         @yield('scripts')
     </div>

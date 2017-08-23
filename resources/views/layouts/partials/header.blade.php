@@ -46,9 +46,9 @@
                         <ul class="dropdown-menu" role="menu">
                             <!--<li><a href="{{ route('admin.index') }}">Админка</a><li>-->
                             <li class="dropdown-header">Отзывы</li>
-                            <li><a>Ожидающие решения <span id="posts-new" class="badge"></span></a></li>
-                            <li><a>Опубликованные <span id="posts-published" class="badge"></a></li>
-                            <li><a>Скрытые <span id="posts-hidden" class="badge"></a></li>
+                            <li><a href="{{ route('admin.posts.unpublished') }}">Ожидающие решения <span id="posts-new" class="badge"></span></a></li>
+                            <li><a href="{{ route('admin.posts.published') }}">Опубликованные <span id="posts-published" class="badge"></a></li>
+                            <li><a href="{{ route('admin.posts.hidden') }}">Скрытые <span id="posts-hidden" class="badge"></a></li>
                         </ul>
                     </li>
                     @endif

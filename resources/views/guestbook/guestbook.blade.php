@@ -70,7 +70,7 @@
 
                 <div class="panel-body pull-right clearfix">
                     <div class="well">{{ $post->content }}</div>
-                    <div class="pull-right">Опубликовано: {{ $post->created_at }}</div>
+                    <div class="pull-right">Опубликовано: {{ $post->updated_at }}</div>
                 </div>
             </div>
         </div>

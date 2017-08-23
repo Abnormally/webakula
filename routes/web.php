@@ -21,6 +21,10 @@ Route::group(['prefix' => 'guestbook'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@index')->name('admin.index');
     Route::get('/getbadges', 'AdminController@getBadges')->name('admin.getbadges');
+
+    Route::get('/published', 'AdminController@publishedPage')->name('admin.posts.published');
+    Route::get('/unpublished', 'AdminController@unpublishedPage')->name('admin.posts.unpublished');
+    Route::get('/hidden', 'AdminController@hiddenPage')->name('admin.posts.hidden');
 });
 
 Route::get('login', [

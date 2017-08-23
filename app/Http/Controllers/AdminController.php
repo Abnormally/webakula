@@ -48,4 +48,25 @@ class AdminController extends Controller
         if (Auth::user()->role < 3) $this->createNotFound();
         return json_encode(GuestbookPost::getBadges());
     }
+
+    public function unpublishedPage() {
+        if (Auth::user()->role < 3) $this->createNotFound();
+        return view('admin.posts', [
+            'posts' => GuestbookPost::getUnpublished()
+        ]);
+    }
+
+    public function publishedPage() {
+        if (Auth::user()->role < 3) $this->createNotFound();
+        return view('admin.posts', [
+            'posts' => GuestbookPost::getPublished()
+        ]);
+    }
+
+    public function hiddenPage() {
+        if (Auth::user()->role < 3) $this->createNotFound();
+        return view('admin.posts', [
+            'posts' => GuestbookPost::getHiddenPosts()
+        ]);
+    }
 }
