@@ -19,17 +19,32 @@ Route::group(['prefix' => 'guestbook'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', 'AdminController@index')->name('admin.index');
-    Route::get('getbadges', 'AdminController@getBadges')->name('admin.getbadges');
+    Route::get('/', 'AdminController@index')
+        ->name('admin.index');
 
-    Route::get('published', 'AdminController@publishedPage')->name('admin.posts.published');
-    Route::get('unpublished', 'AdminController@unpublishedPage')->name('admin.posts.unpublished');
-    Route::get('hidden', 'AdminController@hiddenPage')->name('admin.posts.hidden');
+    Route::get('getbadges', 'AdminController@getBadges')
+        ->name('admin.getbadges');
 
-    Route::post('remove/{$id}', [
-        'as' => 'admin.remove',
-        'uses' =>'AdminController@deletePost'
-    ])->where('id', '[0-9]+');
+    Route::get('published', 'AdminController@publishedPage')
+        ->name('admin.posts.published');
+
+    Route::get('unpublished', 'AdminController@unpublishedPage')
+        ->name('admin.posts.unpublished');
+
+    Route::get('hidden', 'AdminController@hiddenPage')
+        ->name('admin.posts.hidden');
+
+    Route::get('remove/{id}', 'AdminController@removePost')
+        ->name('admin.remove')
+        ->where('id', '[0-9]+');
+
+    Route::get('hide/{id}', 'AdminController@hidePost')
+        ->name('admin.hide')
+        ->where('id', '[0-9]+');
+
+    Route::get('publish/{id}', 'AdminController@publishPost')
+        ->name('admin.publish')
+        ->where('id', '[0-9]+');
 });
 
 Route::get('login', [

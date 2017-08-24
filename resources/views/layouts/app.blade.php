@@ -52,6 +52,10 @@
                             badges.hidden.empty().append(data[i].total);
                         }
                     }
+
+                    if (!badges.waiting.text()) badges.waiting.append(0);
+                    if (!badges.published.text()) badges.published.append(0);
+                    if (!badges.hidden.text()) badges.hidden.append(0);
                 });
             });
         </script>

@@ -57,7 +57,8 @@ class AdminController extends Controller
     public function unpublishedPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getUnpublished()
+            'posts' => GuestbookPost::getUnpublished(),
+            'status' => 0
         ]);
     }
 
@@ -69,7 +70,8 @@ class AdminController extends Controller
     public function publishedPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getPublished()
+            'posts' => GuestbookPost::getPublished(),
+            'status' => 2
         ]);
     }
 
@@ -81,17 +83,59 @@ class AdminController extends Controller
     public function hiddenPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getHiddenPosts()
+            'posts' => GuestbookPost::getHiddenPosts(),
+            'status' => 3
         ]);
     }
 
-    public function deletePost($id) {
-        $post = GuestbookPost::find($id);
+    /**
+     * 'Deleting' the post.
+     *
+     * @param integer $id
+     * @return bool
+     */
+    public function removePost($id) {
         if (Auth::user()->role < 3) $this->createNotFound();
+        $post = GuestbookPost::find($id);
+        if (!$post) return 'false';
 
         $post->status = null;
         $post->save();
 
-        return $id;
+        return 'true';
+    }
+
+    /**
+     * Make post hidden.
+     *
+     * @param integer $id
+     * @return bool
+     */
+    public function hidePost($id) {
+        if (Auth::user()->role < 3) $this->createNotFound();
+        $post = GuestbookPost::find($id);
+        if (!$post) return 'false';
+
+        $post->status = 3;
+        $post->save();
+
+        return 'true';
+    }
+
+    /**
+     * Publish the post.
+     *
+     * @param integer $id
+     * @return bool
+     */
+    public function publishPost($id) {
+        if (Auth::user()->role < 3) $this->createNotFound();
+        $post = GuestbookPost::find($id);
+        if (!$post) return 'false';
+
+        $post->status = 2;
+        $post->save();
+
+        return 'true';
     }
 }
