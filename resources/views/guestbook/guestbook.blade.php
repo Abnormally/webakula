@@ -62,21 +62,32 @@
         @foreach($temp as &$post)
         <div class="col-md-6">
             <div class="panel @if($post->reaction === 0){{ 'panel-default' }}@elseif($post->reaction === 1){{ 'panel-success' }}@else{{ 'panel-danger' }}@endif clearfix">
-                <div class="panel-heading">
+                <div class="panel-heading clearfix">
                     <a href="mailto:{{ $post->email }}" style="color: inherit">{{ $post->name }}</a>
+                    <div class="pull-right">Опубликовано: {{ $post->updated_at }}</div>
                 </div>
 
                 <img class="panel-body img-responsive pull-left" src="" alt="{{ $post->name }}">
 
-                <div class="panel-body pull-right clearfix">
-                    <div class="well">{{ $post->content }}</div>
-                    <div class="pull-right">Опубликовано: {{ $post->updated_at }}</div>
+                <div class="panel-body pull-right clearfix" style="width: 60%">
+                    <div class="well" style="width: 100%; height: 100px; overflow: hidden">{{ $post->content }}</div>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
     @endforeach
+    <div class="container">
+        <nav aria-label="page navigation" align="center">
+            <ul class="pagination">
+                <li class="previous{{ $page == 1 ? ' disabled' : '' }}"><a href="{{ route('guestbook.page', ['page' => $page - 1 > 0 ? $page - 1 : 1]) }}" @if($page == 1){!! "onclick='event.preventDefault()'" !!}@endif>Предыдущая страница</a></li>
+                <li class="previous{{ $page == 1 ? ' disabled' : '' }}"><a href="{{ route('guestbook.page', ['page' => 1]) }}" @if($page == 1){!! "onclick='event.preventDefault()'" !!}@endif>В начало</a></li>
+                <li class="disabled"><a href="" onclick="event.preventDefault()">Страница {{ $page }} из {{ $pages }}</a></li>
+                <li class="next{{ $page == $pages ? ' disabled' : '' }}"><a href="{{ route('guestbook.page', ['page' => $pages]) }}" @if($page == $pages){!! "onclick='event.preventDefault()'" !!}@endif>В конец</a></li>
+                <li class="next{{ $page == $pages ? ' disabled' : '' }}"><a href="{{ route('guestbook.page', ['page' => $page + 1 > $pages ? $pages : $page + 1]) }}" @if($page == $pages){!! "onclick='event.preventDefault()'" !!}@endif>Следующая страница</a></li>
+            </ul>
+        </nav>
+    </div>
 </article>
 @endsection
 

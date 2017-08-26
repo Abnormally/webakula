@@ -14,8 +14,15 @@
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'guestbook'], function () {
-    Route::get('/', 'HomeController@guestbook')->name('guestbook.index');
-    Route::post('/', 'HomeController@addPost')->name('guestbook.post');
+    Route::get('/', 'HomeController@guestbook')
+        ->name('guestbook.index');
+
+    Route::get('/{page}', 'HomeController@guestbook')
+        ->name('guestbook.page')
+        ->where('page', '[0-9]+');
+
+    Route::post('/', 'HomeController@addPost')
+        ->name('guestbook.post');
 });
 
 Route::group(['prefix' => 'admin'], function () {

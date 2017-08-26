@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\GuestbookPost;
+use Session;
 
 class HomeController extends Controller
 {
@@ -22,11 +23,19 @@ class HomeController extends Controller
     /**
      * Show the GuestBook page.
      *
+     * @param int|null $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function guestbook() {
+    public function guestbook($page = null) {
+        $amount = GuestbookPost::getAmountOfPublished()->first()->total;
+        $perPage = Session::has('perPage') ? Session::get('perPage') : GuestbookPost::perPage;
+        $pages = ceil($amount / $perPage);
+        $page = $page > 0 ? $page : 1;
+
         return view('guestbook.guestbook', [
-            'posts' => GuestbookPost::getLatest(),
+            'posts' => GuestbookPost::getLatestPerPage($page, $perPage),
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 

@@ -91,7 +91,7 @@ class AdminController extends Controller
     /**
      * 'Deleting' the post.
      *
-     * @param integer $id
+     * @param int $id
      * @return bool
      */
     public function removePost($id) {
@@ -108,7 +108,7 @@ class AdminController extends Controller
     /**
      * Make post hidden.
      *
-     * @param integer $id
+     * @param int $id
      * @return bool
      */
     public function hidePost($id) {
@@ -125,7 +125,7 @@ class AdminController extends Controller
     /**
      * Publish the post.
      *
-     * @param integer $id
+     * @param int $id
      * @return bool
      */
     public function publishPost($id) {

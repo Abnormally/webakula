@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GuestbookPost extends Model
 {
+    const perPage = 6;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,10 +18,34 @@ class GuestbookPost extends Model
         'name', 'email', 'content', 'user_id',
     ];
 
-    public static function getLatest() {
-        return self::where('status', 2)
-            ->orderBy('updated_at', 'desc')
-            ->take(10)
+    /**
+     * @param int $page
+     * @param null|int $perPage
+     * @param int $status
+     * @param bool $ucFlag
+     * @return mixed
+     */
+    public static function getLatestPerPage($page = 1, $perPage = null, $status = 2, $ucFlag = true) {
+        $perPage = $perPage ? $perPage : self::perPage;
+        $start = ($page - 1) * $perPage;
+
+        return self::where('status', $status)
+            ->orderBy($ucFlag ? 'updated_at' : 'created_at', 'desc')
+            ->limit($perPage)
+            ->offset($start)
+            ->get();
+    }
+
+    /**
+     * Get amount of published posts.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getAmountOfPublished() {
+        return DB::table('guestbook_posts')
+            ->select('status', DB::raw('count(*) as total'))
+            ->where('status', '=', 2)
+            ->groupBy('status')
             ->get();
     }
 
