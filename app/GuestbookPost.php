@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class GuestbookPost extends Model
 {
     const perPage = 6;
+    const perPageAdmin = 4;
 
     /**
      * The attributes that are mass assignable.
@@ -39,12 +40,13 @@ class GuestbookPost extends Model
     /**
      * Get amount of published posts.
      *
+     * @param int $status
      * @return \Illuminate\Support\Collection
      */
-    public static function getAmountOfPublished() {
+    public static function getAmountOf($status = 2) {
         return DB::table('guestbook_posts')
             ->select('status', DB::raw('count(*) as total'))
-            ->where('status', '=', 2)
+            ->where('status', '=', $status)
             ->groupBy('status')
             ->get();
     }

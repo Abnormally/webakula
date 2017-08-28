@@ -27,7 +27,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function guestbook($page = null) {
-        $amount = GuestbookPost::getAmountOfPublished()->first()->total;
+        $amount = GuestbookPost::getAmountOf()->first()->total;
         $perPage = Session::has('perPage') ? Session::get('perPage') : GuestbookPost::perPage;
         $pages = ceil($amount / $perPage);
         $page = $page > 0 ? $page : 1;

@@ -41,6 +41,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('hidden', 'AdminController@hiddenPage')
         ->name('admin.posts.hidden');
 
+    Route::get('published/{id}', 'AdminController@publishedPage')
+        ->name('admin.published.page')
+        ->where('id', '[0-9]+');
+
+    Route::get('unpublished/{id}', 'AdminController@unpublishedPage')
+        ->name('admin.unpublished.page')
+        ->where('id', '[0-9]+');
+
+    Route::get('hidden/{id}', 'AdminController@hiddenPage')
+        ->name('admin.hidden.page')
+        ->where('id', '[0-9]+');
+
     Route::get('remove/{id}', 'AdminController@removePost')
         ->name('admin.remove')
         ->where('id', '[0-9]+');

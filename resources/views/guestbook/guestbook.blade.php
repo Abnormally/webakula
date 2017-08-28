@@ -158,7 +158,7 @@
                     }
                 } else {
                     new Noty({
-                        layout: 'topLeft',
+                        layout: 'bottomLeft',
                         type: 'success',
                         text: 'Спасибо за ваш отзыв, ' + response.name
                         + '. Он появится на странице, как только будет одобрен модератором. <br>'

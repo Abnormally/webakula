@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\GuestbookPost;
 use Auth;
 use Illuminate\Http\Request;
+use Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
@@ -30,7 +31,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Show admins (role 4, 5) ands moderators (role 3) index page.
+     * Show admins (role 4, 5) and moderators (role 3) index page.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -52,39 +53,63 @@ class AdminController extends Controller
     /**
      * Show unpublished posts.
      *
+     * @param null|int $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function unpublishedPage() {
+    public function unpublishedPage($page = null) {
+        $amount = GuestbookPost::getAmountOf(0)->first()->total;
+        $perPage = Session::has('perPageAdmin') ? Session::get('perPageAdmin') : GuestbookPost::perPageAdmin;
+        $pages = ceil($amount / $perPage);
+        $page = $page > 0 ? $page : 1;
+
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getUnpublished(),
-            'status' => 0
+            'posts' => GuestbookPost::getLatestPerPage($page, $perPage, 0, false),
+            'link' => 'admin.unpublished.page',
+            'pages' => $pages,
+            'page' => $page,
         ]);
     }
 
     /**
      * Show published posts.
      *
+     * @param null|int $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function publishedPage() {
+    public function publishedPage($page = null) {
+        $amount = GuestbookPost::getAmountOf()->first()->total;
+        $perPage = Session::has('perPageAdmin') ? Session::get('perPageAdmin') : GuestbookPost::perPageAdmin;
+        $pages = ceil($amount / $perPage);
+        $page = $page > 0 ? $page : 1;
+
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getPublished(),
-            'status' => 2
+            'posts' => GuestbookPost::getLatestPerPage($page, $perPage, 2, false),
+            'link' => 'admin.published.page',
+            'pages' => $pages,
+            'page' => $page,
         ]);
     }
 
     /**
      * Show hidden posts.
      *
+     * @param null|int $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function hiddenPage() {
+    public function hiddenPage($page = null) {
+        $amount = GuestbookPost::getAmountOf(3)->first()->total;
+        $perPage = Session::has('perPageAdmin') ? Session::get('perPageAdmin') : GuestbookPost::perPageAdmin;
+        $pages = ceil($amount / $perPage);
+        $page = $page > 0 ? $page : 1;
+
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getHiddenPosts(),
-            'status' => 3
+            'posts' => GuestbookPost::getLatestPerPage($page, $perPage, 3, false),
+            'link' => 'admin.hidden.page',
+            'pages' => $pages,
+            'page' => $page,
         ]);
     }
 
