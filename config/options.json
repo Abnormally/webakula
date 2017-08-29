@@ -1,0 +1,6 @@
+{
+  "pagination": {
+    "perPage": 6,
+    "perPageAdmin": 4
+  }
+}

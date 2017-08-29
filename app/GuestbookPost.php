@@ -38,7 +38,7 @@ class GuestbookPost extends Model
     }
 
     /**
-     * Get amount of published posts.
+     * Get amount of {status} posts.
      *
      * @param int $status
      * @return \Illuminate\Support\Collection
@@ -58,31 +58,6 @@ class GuestbookPost extends Model
         return DB::table('guestbook_posts')
             ->select('status', DB::raw('count(*) as total'))
             ->groupBy('status')
-            ->get();
-    }
-
-    public static function getUnpublished() {
-        return self::where('status', 0)
-            ->orderBy('created_at', 'desc')
-            ->get();
-    }
-
-    public static function getPublished() {
-        return self::where('status', 2)
-            ->orderBy('created_at', 'desc')
-            ->get();
-    }
-
-    public static function getHiddenPosts() {
-        return self::where('status', 3)
-            ->orderBy('created_at', 'desc')
-            ->get();
-    }
-
-    public static function getById($id) {
-        $id = (int) $id;
-
-        return self::where('id', $id)
             ->get();
     }
 }

@@ -57,8 +57,10 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function unpublishedPage($page = null) {
-        $amount = GuestbookPost::getAmountOf(0)->first()->total;
-        $perPage = Session::has('perPageAdmin') ? Session::get('perPageAdmin') : GuestbookPost::perPageAdmin;
+        $amount = GuestbookPost::getAmountOf(0)->first();
+        $amount = $amount ? $amount->total : 0;
+        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
+        $perPage = $options->pagination->perPageAdmin;
         $pages = ceil($amount / $perPage);
         $page = $page > 0 ? $page : 1;
 
@@ -78,8 +80,10 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function publishedPage($page = null) {
-        $amount = GuestbookPost::getAmountOf()->first()->total;
-        $perPage = Session::has('perPageAdmin') ? Session::get('perPageAdmin') : GuestbookPost::perPageAdmin;
+        $amount = GuestbookPost::getAmountOf()->first();
+        $amount = $amount ? $amount->total : 0;
+        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
+        $perPage = $options->pagination->perPageAdmin;
         $pages = ceil($amount / $perPage);
         $page = $page > 0 ? $page : 1;
 
@@ -99,8 +103,10 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function hiddenPage($page = null) {
-        $amount = GuestbookPost::getAmountOf(3)->first()->total;
-        $perPage = Session::has('perPageAdmin') ? Session::get('perPageAdmin') : GuestbookPost::perPageAdmin;
+        $amount = GuestbookPost::getAmountOf(3)->first();
+        $amount = $amount ? $amount->total : 0;
+        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
+        $perPage = $options->pagination->perPageAdmin;
         $pages = ceil($amount / $perPage);
         $page = $page > 0 ? $page : 1;
 
@@ -125,7 +131,7 @@ class AdminController extends Controller
         if (!$post) return 'false';
 
         $post->status = null;
-        $post->save();
+        $post->update();
 
         return 'true';
     }
@@ -142,7 +148,7 @@ class AdminController extends Controller
         if (!$post) return 'false';
 
         $post->status = 3;
-        $post->save();
+        $post->update();
 
         return 'true';
     }
@@ -159,7 +165,7 @@ class AdminController extends Controller
         if (!$post) return 'false';
 
         $post->status = 2;
-        $post->save();
+        $post->update();
 
         return 'true';
     }

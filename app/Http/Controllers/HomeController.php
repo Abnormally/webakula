@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\GuestbookPost;
 use Session;
@@ -28,7 +29,8 @@ class HomeController extends Controller
      */
     public function guestbook($page = null) {
         $amount = GuestbookPost::getAmountOf()->first()->total;
-        $perPage = Session::has('perPage') ? Session::get('perPage') : GuestbookPost::perPage;
+        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
+        $perPage = $options->pagination->perPage;
         $pages = ceil($amount / $perPage);
         $page = $page > 0 ? $page : 1;
 
@@ -85,9 +87,17 @@ class HomeController extends Controller
             $post->user_id = Auth::guest() ? 0 : Auth::id();
             $post->name = $response['name'];
             $post->email = Auth::guest() ? $request['email'] : Auth::user()->email;
+            $post->avatar = 'img/guestbook/0.jpg';
             $post->content = $request['text'];
 
             $post->save();
+
+            if (Input::hasFile('file')) {
+                $file = Input::file('file');
+                $file->move('img/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
+                $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
+                $post->update();
+            }
         }
 
         return json_encode($response);

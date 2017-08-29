@@ -18,7 +18,7 @@
                     <label for="guest-name" class="col-md-3 control-label">Имя</label>
 
                     <div class="col-md-8">
-                        <input id="guest-name" type="text" class="form-control" minlength="2" maxlength="100" required autofocus>
+                        <input id="guest-name" type="text" class="form-control" minlength="2" maxlength="100" required>
                         <span class="help-block with-errors"></span>
                     </div>
                 </div>
@@ -43,6 +43,15 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="avatar" class="col-md-2 control-label">Фотография:</label>
+
+                    <div class="col-md-10">
+                        <input id="avatar" type="file" class="form-control">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="panel-footer clearfix">
@@ -61,16 +70,19 @@
     <div class="row">
         @foreach($temp as &$post)
         <div class="col-md-6">
-            <div class="panel @if($post->reaction === 0){{ 'panel-default' }}@elseif($post->reaction === 1){{ 'panel-success' }}@else{{ 'panel-danger' }}@endif clearfix">
+            <div class="panel @if($post->reaction === 0){{ 'panel-default' }}@elseif($post->reaction === 1){{ 'panel-success' }}@else{{ 'panel-danger' }}@endif">
                 <div class="panel-heading clearfix">
                     <a href="mailto:{{ $post->email }}" style="color: inherit">{{ $post->name }}</a>
                     <div class="pull-right">Опубликовано: {{ $post->updated_at }}</div>
                 </div>
 
-                <img class="panel-body img-responsive pull-left" src="" alt="{{ $post->name }}">
-
-                <div class="panel-body pull-right clearfix" style="width: 60%">
-                    <div class="well" style="width: 100%; height: 100px; overflow: hidden">{{ $post->content }}</div>
+                <div class="panel-body row">
+                    <div class="col-md-6">
+                        <img class="img-responsive" width="150px" src="{{ asset($post->avatar) }}" alt="{{ $post->name }}">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="well" style="width: 100%; height: 100px; overflow: hidden">{{ $post->content }}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,40 +144,56 @@
             $('.with-errors').empty();
             $('.has-error').removeClass('has-danger').removeClass('has-error');
 
-            $.post('{{ route('guestbook.post') }}', {
-                '_token': '{{ csrf_token() }}',
-                'name': gpost.guest_name.val(),
-                'email': gpost.guest_email.val(),
-                'text': gpost.guest_post.val(),
-                'reaction': 0
-            }, function (data) {
-                var response = JSON.parse(data);
+            var formData = new FormData();
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('file', $('#avatar')[0].files[0]);
+            formData.append('name', gpost.guest_name.val());
+            formData.append('email', gpost.guest_email.val());
+            formData.append('text', gpost.guest_post.val());
 
-                if (response.has_errors) {
-                    if (response.errors.name) {
-                        gpost.guest_name.parent().parent().addClass('has-danger').addClass('has-error');
-                        gpost.guest_name.next().append(response.errors.name[0]);
-                    }
+            $.ajax({
+                url: "{{ route('guestbook.post') }}",
+                method: "POST",
+                dataType: 'json',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.has_errors) {
+                        if (response.errors.name) {
+                            gpost.guest_name.parent().parent().addClass('has-danger').addClass('has-error');
+                            gpost.guest_name.next().append(response.errors.name[0]);
+                        }
 
-                    if (response.errors.email) {
-                        gpost.guest_email.parent().parent().addClass('has-danger').addClass('has-error');
-                        gpost.guest_email.next().append(response.errors.email[0]);
-                    }
+                        if (response.errors.email) {
+                            gpost.guest_email.parent().parent().addClass('has-danger').addClass('has-error');
+                            gpost.guest_email.next().append(response.errors.email[0]);
+                        }
 
-                    if (response.errors.text) {
-                        gpost.guest_post.parent().parent().addClass('has-danger').addClass('has-error');
-                        gpost.guest_post.next().append(response.errors.text[0]);
+                        if (response.errors.text) {
+                            gpost.guest_post.parent().parent().addClass('has-danger').addClass('has-error');
+                            gpost.guest_post.next().append(response.errors.text[0]);
+                        }
+                    } else {
+                        new Noty({
+                            layout: 'bottomLeft',
+                            type: 'success',
+                            text: 'Спасибо за ваш отзыв, ' + response.name
+                            + '. Он появится на странице, как только будет одобрен модератором. <br>'
+                            + '<br> Для закрытия этого сообщения просто нажмите на него.',
+                        }).show();
+
+                        clear_form();
                     }
-                } else {
+                },
+                error: function (error) {
+                    console.log(error.message);
+
                     new Noty({
                         layout: 'bottomLeft',
-                        type: 'success',
-                        text: 'Спасибо за ваш отзыв, ' + response.name
-                        + '. Он появится на странице, как только будет одобрен модератором. <br>'
-                        + '<br> Для закрытия этого сообщения просто нажмите на него.',
+                        type: 'danger',
+                        text: 'Произошёл сбой на сервере. Приносим извенения за неполадки.',
                     }).show();
-
-                    clear_form();
                 }
             });
         });
