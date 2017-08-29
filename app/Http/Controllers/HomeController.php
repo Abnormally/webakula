@@ -28,7 +28,8 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function guestbook($page = null) {
-        $amount = GuestbookPost::getAmountOf()->first()->total;
+        $amount = GuestbookPost::getAmountOf()->first();
+        $amount = $amount ? $amount->total : 0;
         $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
         $perPage = $options->pagination->perPage;
         $pages = ceil($amount / $perPage);

@@ -127,6 +127,7 @@
             gpost.guest_post.val(null);
             gpost.post_form.hide();
             gpost.post_button.show();
+            $('#avatar').val(null);
         }
 
         gpost.post_cancel.on('click', function () {
