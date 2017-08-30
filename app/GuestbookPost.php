@@ -2,7 +2,6 @@
 
 namespace App;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class GuestbookPost extends Model
@@ -44,8 +43,7 @@ class GuestbookPost extends Model
      * @return \Illuminate\Support\Collection
      */
     public static function getAmountOf($status = 2) {
-        return DB::table('guestbook_posts')
-            ->select('status', DB::raw('count(*) as total'))
+        return self::selectRaw('`status`, count(*) as total')
             ->where('status', '=', $status)
             ->groupBy('status')
             ->get();
@@ -55,8 +53,7 @@ class GuestbookPost extends Model
      * @return \Illuminate\Support\Collection
      */
     public static function getBadges() {
-        return DB::table('guestbook_posts')
-            ->select('status', DB::raw('count(*) as total'))
+        return self::selectRaw('`status`, count(*) as total')
             ->groupBy('status')
             ->get();
     }
