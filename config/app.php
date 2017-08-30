@@ -179,6 +179,7 @@ return [
 		
 		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 		Barryvdh\Debugbar\ServiceProvider::class,
+		Lord\Laroute\LarouteServiceProvider::class,
 
     ],
 
