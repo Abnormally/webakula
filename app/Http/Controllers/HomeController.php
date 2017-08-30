@@ -76,6 +76,7 @@ class HomeController extends Controller
                 $file = Input::file('file');
                 $file->move('img/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
                 $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
+
                 $post->update();
             }
         }

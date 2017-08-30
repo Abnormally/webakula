@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\GuestbookPost;
-use Auth;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -13,17 +11,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Helper function.
-     *
-     * @param null $message
-     * @throws NotFoundHttpException
-     */
-    private function createNotFound($message = null) {
-        throw new NotFoundHttpException($message);
+        $this->middleware('admin');
     }
 
     /**
@@ -32,7 +20,6 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index() {
-        if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.index');
     }
 
@@ -42,7 +29,6 @@ class AdminController extends Controller
      * @return string
      */
     public function getBadges() {
-        if (Auth::user()->role < 3) $this->createNotFound();
         return json_encode(GuestbookPost::getBadges());
     }
 
@@ -52,7 +38,6 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function unpublishedPage() {
-        if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
             'posts' => GuestbookPost::getPagination(0, 1)
         ]);
@@ -87,7 +72,6 @@ class AdminController extends Controller
      * @return bool
      */
     public function removePost($id) {
-        if (Auth::user()->role < 3) $this->createNotFound();
         $post = GuestbookPost::find($id);
         if (!$post) return 'false';
 
@@ -104,7 +88,6 @@ class AdminController extends Controller
      * @return bool
      */
     public function hidePost($id) {
-        if (Auth::user()->role < 3) $this->createNotFound();
         $post = GuestbookPost::find($id);
         if (!$post) return 'false';
 
@@ -121,7 +104,6 @@ class AdminController extends Controller
      * @return bool
      */
     public function publishPost($id) {
-        if (Auth::user()->role < 3) $this->createNotFound();
         $post = GuestbookPost::find($id);
         if (!$post) return 'false';
 
