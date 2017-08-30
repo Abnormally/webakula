@@ -39,29 +39,19 @@ class HomeController extends Controller
      */
     public function addPost(Request $request) {
         if (Auth::guest()) {
-            $form = [
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'text' => $request['text']
-            ];
-
-            $validator = Validator::make($form, [
+            $validator = Validator::make($request->all(), [
                 'name' => 'required|string|min:2|max:100',
                 'email' => 'required|string|email|max:100',
                 'text' => 'required|string|min:10',
             ]);
 
             $response = [
-                'name' => $form['name'],
+                'name' => $request['name'],
                 'has_errors' => $validator->errors()->any(),
                 'errors' => $validator->errors()
             ];
         } else {
-            $form = [
-                'text' => $request['text']
-            ];
-
-            $validator = Validator::make($form, [
+            $validator = Validator::make($request->all(), [
                 'text' => 'required|string|min:10'
             ]);
 
