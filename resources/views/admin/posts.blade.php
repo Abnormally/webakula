@@ -47,16 +47,8 @@
         @endforeach
     </div>
     @endforeach
-    <div class="container">
-        <nav aria-label="page navigation" align="center">
-            <ul class="pagination">
-                <li class="{{ $page == 1 ? 'disabled' : '' }}"><a href="{{ route($link, ['page' => $page - 1 > 0 ? $page - 1 : 1]) }}" @if($page == 1){!! "onclick='event.preventDefault()'" !!}@endif>Предыдущая страница</a></li>
-                <li class="{{ $page == 1 ? 'disabled' : '' }}"><a href="{{ route($link, ['page' => 1]) }}" @if($page == 1){!! "onclick='event.preventDefault()'" !!}@endif>В начало</a></li>
-                <li class="disabled"><a href="" onclick="event.preventDefault()">Страница {{ $page }} из {{ $pages }}</a></li>
-                <li class="{{ $page == $pages ? 'disabled' : '' }}"><a href="{{ route($link, ['page' => $pages]) }}" @if($page == $pages){!! "onclick='event.preventDefault()'" !!}@endif>В конец</a></li>
-                <li class="{{ $page == $pages ? 'disabled' : '' }}"><a href="{{ route($link, ['page' => $page + 1 > $pages ? $pages : $page + 1]) }}" @if($page == $pages){!! "onclick='event.preventDefault()'" !!}@endif>Следующая страница</a></li>
-            </ul>
-        </nav>
-    </div>
+    <nav align="center">
+        {{ $posts->links() }}
+    </nav>
 </div>
 @endsection

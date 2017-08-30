@@ -6,8 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class GuestbookPost extends Model
 {
-    const perPage = 6;
-    const perPageAdmin = 4;
+    protected static $perPageGuest;
+    protected static $perPageAdmin;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $options = json_decode(file_get_contents('../config/options.json'));
+
+        if ($options) {
+            self::$perPageGuest = $options->pagination->perPageGuest;
+            self::$perPageAdmin = $options->pagination->perPageAdmin;
+        } else {
+            self::$perPageGuest = 6;
+            self::$perPageAdmin = 4;
+        }
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -19,34 +33,16 @@ class GuestbookPost extends Model
     ];
 
     /**
-     * @param int $page
-     * @param null|int $perPage
-     * @param int $status
-     * @param bool $ucFlag
-     * @return mixed
-     */
-    public static function getLatestPerPage($page = 1, $perPage = null, $status = 2, $ucFlag = true) {
-        $perPage = $perPage ? $perPage : self::perPage;
-        $start = ($page - 1) * $perPage;
-
-        return self::where('status', $status)
-            ->orderBy($ucFlag ? 'updated_at' : 'created_at', 'desc')
-            ->limit($perPage)
-            ->offset($start)
-            ->get();
-    }
-
-    /**
-     * Get amount of {status} posts.
+     * Returns pagination by status and type.
      *
      * @param int $status
-     * @return \Illuminate\Support\Collection
+     * @param int $type
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public static function getAmountOf($status = 2) {
-        return self::selectRaw('`status`, count(*) as total')
-            ->where('status', '=', $status)
-            ->groupBy('status')
-            ->get();
+    public static function getPagination($status = 2, $type = 0) {
+        return self::where('status', '=', $status)
+            ->orderBy('updated_at', 'desc')
+            ->paginate($type ? self::$perPageAdmin : self::$perPageGuest);
     }
 
     /**

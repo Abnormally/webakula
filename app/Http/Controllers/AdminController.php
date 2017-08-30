@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\GuestbookPost;
 use Auth;
-use Illuminate\Http\Request;
-use Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -53,69 +49,34 @@ class AdminController extends Controller
     /**
      * Show unpublished posts.
      *
-     * @param null|int $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function unpublishedPage($page = null) {
-        $amount = GuestbookPost::getAmountOf(0)->first();
-        $amount = $amount ? $amount->total : 0;
-        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
-        $perPage = $options->pagination->perPageAdmin;
-        $pages = ceil($amount / $perPage);
-        $page = $page > 0 ? $page : 1;
-
+    public function unpublishedPage() {
         if (Auth::user()->role < 3) $this->createNotFound();
         return view('admin.posts', [
-            'posts' => GuestbookPost::getLatestPerPage($page, $perPage, 0, false),
-            'link' => 'admin.unpublished.page',
-            'pages' => $pages,
-            'page' => $page,
+            'posts' => GuestbookPost::getPagination(0, 1)
         ]);
     }
 
     /**
      * Show published posts.
      *
-     * @param null|int $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function publishedPage($page = null) {
-        $amount = GuestbookPost::getAmountOf()->first();
-        $amount = $amount ? $amount->total : 0;
-        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
-        $perPage = $options->pagination->perPageAdmin;
-        $pages = ceil($amount / $perPage);
-        $page = $page > 0 ? $page : 1;
-
-        if (Auth::user()->role < 3) $this->createNotFound();
+    public function publishedPage() {
         return view('admin.posts', [
-            'posts' => GuestbookPost::getLatestPerPage($page, $perPage, 2, false),
-            'link' => 'admin.published.page',
-            'pages' => $pages,
-            'page' => $page,
+            'posts' => GuestbookPost::getPagination(2, 1)
         ]);
     }
 
     /**
      * Show hidden posts.
      *
-     * @param null|int $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function hiddenPage($page = null) {
-        $amount = GuestbookPost::getAmountOf(3)->first();
-        $amount = $amount ? $amount->total : 0;
-        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
-        $perPage = $options->pagination->perPageAdmin;
-        $pages = ceil($amount / $perPage);
-        $page = $page > 0 ? $page : 1;
-
-        if (Auth::user()->role < 3) $this->createNotFound();
+    public function hiddenPage() {
         return view('admin.posts', [
-            'posts' => GuestbookPost::getLatestPerPage($page, $perPage, 3, false),
-            'link' => 'admin.hidden.page',
-            'pages' => $pages,
-            'page' => $page,
+            'posts' => GuestbookPost::getPagination(3, 1)
         ]);
     }
 

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\GuestbookPost;
-use Session;
 
 class HomeController extends Controller
 {
@@ -24,21 +23,11 @@ class HomeController extends Controller
     /**
      * Show the GuestBook page.
      *
-     * @param int|null $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function guestbook($page = null) {
-        $amount = GuestbookPost::getAmountOf()->first();
-        $amount = $amount ? $amount->total : 0;
-        $options = json_decode(file_get_contents('../config/options.json')); // Decode pagination options file
-        $perPage = $options->pagination->perPage;
-        $pages = ceil($amount / $perPage);
-        $page = $page > 0 ? $page : 1;
-
+    public function guestbook() {
         return view('guestbook.guestbook', [
-            'posts' => GuestbookPost::getLatestPerPage($page, $perPage),
-            'pages' => $pages,
-            'page' => $page
+            'posts' => GuestbookPost::getPagination(),
         ]);
     }
 
