@@ -12,4 +12,20 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .scripts([
+        'resources/assets/js/csrf_ajax.js',
+        'resources/assets/js/laroute.js',
+        'resources/assets/js/noty.min.js',
+        'resources/assets/js/validator.min.js',
+        'resources/assets/js/guestbook.js'
+    ], 'public/js/all.js')
+    .scripts([
+        'resources/assets/js/admin/badges.js',
+        'resources/assets/js/admin/posts_crud.js'
+    ], 'public/js/admin.js')
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .styles([
+        'resources/assets/css/font-awesome.min.css',
+        'resources/assets/css/noty.css'
+    ], 'public/css/all.css')
+;
