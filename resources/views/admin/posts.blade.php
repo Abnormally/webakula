@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    <nav align="center">
+        {{ $posts->links() }}
+    </nav>
     @foreach($posts->chunk(2) as &$temp)
     <div class="container">
         @foreach($temp as &$post)

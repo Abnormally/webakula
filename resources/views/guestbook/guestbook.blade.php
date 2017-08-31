@@ -66,6 +66,9 @@
 </article>
 
 <article class="container">
+    <nav align="center">
+        {{ $posts->links() }}
+    </nav>
     @foreach($posts->chunk(2) as &$temp)
     <div class="row">
         @foreach($temp as &$post)

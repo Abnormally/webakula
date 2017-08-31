@@ -4,22 +4,22 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IsAdmin
 {
     /**
-     * Handle an incoming request.
+     * Handle an incoming request and throw exception if user role is not proper.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
+     * @throws \Exception
      */
     public function handle($request, Closure $next)
     {
         if (Auth::user() && Auth::user()->role > 2)
             return $next($request);
 
-        throw new NotFoundHttpException();
+        abort(418, "I'm a teapot");
     }
 }
