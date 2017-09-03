@@ -19,7 +19,7 @@
                         {{ $post->content }}
                     </div>
                     <div class="pull-left">
-                        <img src="{{ asset($post->avatar) }}" class="img-responsive" width="150px">
+                        <img src="{{ asset($post->avatar) }}?w=100&h=100&fit=crop" class="img-responsive">
                     </div>
                     <div class="pull-right">
                         <p>Email: {{ $post->email }}</p>
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="panel-footer clearfix">
-                    <div class="pull-right">
+                    <div class="pull-right btn-group" role="group">
                         @if($post->status === 0 || $post->status === 3)
                         <a role="button" class="btn btn-primary button-publish" href="" onclick="event.preventDefault()">
                             <span class="fa fa-edit"></span> Опубликовать
@@ -39,7 +39,7 @@
                             <span class="fa fa-eye"></span> Скрыть
                         </a>
                         @endif
-                        <a role="button" class="btn btn-danger button-remove" href="" onclick="event.preventDefault()">
+                        <a role="button" class="btn btn-warning button-remove" href="" onclick="event.preventDefault()">
                             <span class="fa fa-cut"></span> Удалить
                         </a>
                         <input type="hidden" value="{{ $post->id }}">

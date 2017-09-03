@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\GuestbookPost;
 
@@ -72,12 +71,14 @@ class HomeController extends Controller
 
             $post->save();
 
-            if (Input::hasFile('file')) {
-                $file = Input::file('file');
-                $file->move('img/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
-                $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                if(starts_with($file->getMimeType(), 'image')) {
+                    $file->storePubliclyAs('images/public/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
+                    $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
 
-                $post->update();
+                    $post->update();
+                }
             }
         }
 

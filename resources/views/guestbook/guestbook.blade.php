@@ -81,7 +81,7 @@
 
                 <div class="panel-body row">
                     <div class="col-md-6">
-                        <img class="img-responsive" width="150px" src="{{ asset($post->avatar) }}" alt="{{ $post->name }}">
+                        <img class="img-responsive" width="150px" src="{{ asset($post->avatar) }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
                     </div>
                     <div class="col-md-6">
                         <div class="well" style="width: 100%; height: 100px; overflow: hidden">{{ $post->content }}</div>
