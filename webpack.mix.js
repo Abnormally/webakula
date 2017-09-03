@@ -11,8 +11,8 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js/lapp.js')
-    .sass('resources/assets/sass/app.scss', 'public/css/lapp.css')
+mix//.js('resources/assets/js/app.js', 'public/js/lapp.js') // Uncomment if basic app rebuild needed
+    //.sass('resources/assets/sass/app.scss', 'public/css/lapp.css')
     .scripts([
         'public/js/lapp.js',
         'resources/assets/js/csrf_ajax.js',
