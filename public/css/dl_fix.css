@@ -1,0 +1,28 @@
+body {
+    background-color: #bbb;
+}
+
+.dl-well-fix {
+    word-break: break-word;
+    /* Для переноса слишком длинных слов */
+}
+
+.dl-panel-default-fix .panel-heading {
+    background-color: rgb(240, 240, 240);
+}
+
+.dl-navbar-inverse-fix {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.panel-heading a {
+    color: inherit;
+}
+
+.dl-post-body-fix {
+    max-height: 100px;
+}
+
+.dl-radio-button-fix input[type="radio"] {
+    display:none;
+}

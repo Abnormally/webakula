@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-inverse dl-navbar-inverse-fix navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
 
@@ -12,7 +12,7 @@
 
             {{-- Branding Image --}}
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                <span class="fa fa-home"></span> Домой
             </a>
         </div>
 

@@ -27,6 +27,7 @@ class HomeController extends Controller
     public function guestbook() {
         return view('guestbook.guestbook', [
             'posts' => GuestbookPost::getPagination(),
+            'posts_headings' => ['panel-danger', 'panel-default dl-panel-default-fix', 'panel-success'],
         ]);
     }
 
@@ -63,7 +64,7 @@ class HomeController extends Controller
 
         if (!$validator->errors()->any()) {
             $post = new GuestbookPost;
-            $post->user_id = Auth::guest() ? 0 : Auth::id();
+            if (!Auth::guest()) $post->user_id = Auth::id();
             $post->name = $response['name'];
             $post->email = Auth::guest() ? $request['email'] : Auth::user()->email;
             $post->avatar = 'img/guestbook/0.jpg';

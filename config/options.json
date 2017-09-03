@@ -1,6 +1,6 @@
 {
   "pagination": {
-    "perPageGuest": 6,
-    "perPageAdmin": 4
+    "perPageGuest": 8,
+    "perPageAdmin": 6
   }
 }

@@ -21,8 +21,8 @@ class CreateGuestbookPostsTable extends Migration
             $table->string('email');
             $table->string('avatar')->nullable();
             $table->timestamps();
-            $table->integer('status')->nullable()->default(0);
-            $table->unsignedTinyInteger('reaction')->nullable()->default(0);
+            $table->unsignedTinyInteger('status')->nullable()->default(0);
+            $table->unsignedTinyInteger('reaction')->default(1);
         });
     }
 

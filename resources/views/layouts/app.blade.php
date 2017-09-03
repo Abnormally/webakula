@@ -10,11 +10,12 @@
     <meta name="description" content="@yield('description', 'Описание страницы')">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/all.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/dl_fix.css') }}">
     @yield('stylesheets')
 </head>
 
 <body>
-    <header role="navigation">
+    <header role="navigation" style="margin-bottom: 65px;">
         @include('layouts.partials.header')
     </header>
 

@@ -2,19 +2,7 @@
 
 @section('title', 'Гостевая книга')
 
-@section('description', 'Гостевая книга для пользователей. Тут можно оставить свой отзыв.')
-
-@section('stylesheets')
-<style type="text/css">
-    .dl-well-fix {
-        word-break: break-word;
-    }
-
-    .dl-panel-default-fix .panel-heading {
-        background-color: rgb(200, 200, 200);
-    }
-</style>
-@endsection
+@section('description', 'Гостевая книга для пользователей. Тут можно оставить свой отзыв. Гостевая создана, как тестовое задания для компании Web-акула.')
 
 @section('content')
 <article class="container">
@@ -67,6 +55,14 @@
         </div>
 
         <div class="panel-footer clearfix">
+            <div class="pull-left input-group">
+                <div class="radio-inline">
+                    <label class="btn btn-danger dl-radio-button-fix"><input type="radio" name="reaction" value="0"><span class="fa fa-thumbs-down"></span> Плохо</label>
+                </div>
+                <div class="radio-inline">
+                    <label class="btn btn-success dl-radio-button-fix"><input type="radio" name="reaction" value="2"><span class="fa fa-thumbs-up"></span> Отлично</label>
+                </div>
+            </div>
             <div class="pull-right">
                 <button type="submit" id="new-post-send" class="btn btn-primary">Отправить отзыв</button>
                 <button type="reset" id="new-post-cancel" class="btn btn-danger">Отмена</button>
@@ -82,11 +78,11 @@
     <div class="row">
         @foreach($temp as &$post)
         <div class="col-md-6">
-            <div class="media panel panel-default dl-panel-default-fix">
+            <div class="media panel {{ $posts_headings[$post->reaction] }}">
                 <div class="panel-heading">
-                    <a href="mailto:{{ $post->email }}" style="color: inherit;"><h4 class="media-heading">{{ $post->name }}</h4></a>
+                    <a href="mailto:{{ $post->email }}"><h4 class="media-heading">{{ $post->name }}</h4></a>
                     <div class="pull-right">
-                        <img src="{{ asset($post->avatar) }}?w=50&h=50&fit=crop" alt="{{ $post->name }}">
+                        <img src="{{ asset('img/guestbook/emo/' . $post->reaction . '.png') }}?w=50&h=50&fit=crop" alt="{{ $post->name }}">
                     </div>
                 </div>
 
@@ -97,7 +93,7 @@
                 </div>
 
                 <div class="media-body">
-                    <div class="panel-body" style="max-height: 100px;">
+                    <div class="panel-body dl-post-body-fix">
                         <p class="well dl-well-fix">{{ $post->content }}</p>
                     </div>
                 </div>
@@ -112,4 +108,8 @@
         {{ $posts->links() }}
     </nav>
 </article>
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="{{ asset('js/guestbook.js') }}"></script>
 @endsection
