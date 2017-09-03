@@ -9,21 +9,23 @@
     <div class="container">
         @foreach($temp as &$post)
         <div class="col-md-6">
-            <div id="post{{ $post->id }}" class="panel panel-default">
+            <div class="media panel panel-success">
                 <div class="panel-heading">
-                    {{ $post->name }}
+                    <a href="mailto:{{ $post->email }}" style="color: inherit;"><h4 class="media-heading">{{ $post->name }}</h4></a>
+                    <div class="pull-right">
+                        <img src="{{ asset($post->avatar) }}?w=50&h=50&fit=crop" alt="{{ $post->name }}">
+                    </div>
                 </div>
 
-                <div class="panel-body clearfix">
-                    <div class="well" style="height: 100px; overflow: hidden">
-                        {{ $post->content }}
-                    </div>
-                    <div class="pull-left">
-                        <img src="{{ asset($post->avatar) }}?w=100&h=100&fit=crop" class="img-responsive">
-                    </div>
-                    <div class="pull-right">
-                        <p>Email: {{ $post->email }}</p>
-                        <p>Создан: {{ $post->created_at }}</p>
+                <div class="media-left media-middle">
+                    <a href="#" onclick="event.preventDefault()">
+                        <img class="media-object" src="{{ asset($post->avatar) }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
+                    </a>
+                </div>
+
+                <div class="media-body">
+                    <div class="panel-body" style="max-height: 100px;">
+                        <p class="well dl-well-fix">{{ $post->content }}</p>
                     </div>
                 </div>
 
@@ -39,7 +41,7 @@
                             <span class="fa fa-eye"></span> Скрыть
                         </a>
                         @endif
-                        <a role="button" class="btn btn-warning button-remove" href="" onclick="event.preventDefault()">
+                        <a role="button" class="btn btn-danger button-remove" href="" onclick="event.preventDefault()">
                             <span class="fa fa-cut"></span> Удалить
                         </a>
                         <input type="hidden" value="{{ $post->id }}">

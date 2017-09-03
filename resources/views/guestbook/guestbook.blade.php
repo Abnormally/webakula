@@ -4,6 +4,18 @@
 
 @section('description', 'Гостевая книга для пользователей. Тут можно оставить свой отзыв.')
 
+@section('stylesheets')
+<style type="text/css">
+    .dl-well-fix {
+        word-break: break-word;
+    }
+
+    .dl-panel-default-fix .panel-heading {
+        background-color: rgb(200, 200, 200);
+    }
+</style>
+@endsection
+
 @section('content')
 <article class="container">
     <div id="new-post-form" style="display: none" class="panel panel-primary">
@@ -65,28 +77,32 @@
     <button id="new-post-button" class="btn btn-primary center-block" style="margin-bottom: 20px">Оставить отзыв</button>
 </article>
 
-<article class="container">
-    <nav align="center">
-        {{ $posts->links() }}
-    </nav>
+<article class="container" id="guest-book-holder">
     @foreach($posts->chunk(2) as &$temp)
     <div class="row">
         @foreach($temp as &$post)
         <div class="col-md-6">
-            <div class="panel @if($post->reaction === 0){{ 'panel-default' }}@elseif($post->reaction === 1){{ 'panel-success' }}@else{{ 'panel-danger' }}@endif">
-                <div class="panel-heading clearfix">
-                    <a href="mailto:{{ $post->email }}" style="color: inherit">{{ $post->name }}</a>
-                    <div class="pull-right">Опубликовано: {{ $post->updated_at }}</div>
+            <div class="media panel panel-default dl-panel-default-fix">
+                <div class="panel-heading">
+                    <a href="mailto:{{ $post->email }}" style="color: inherit;"><h4 class="media-heading">{{ $post->name }}</h4></a>
+                    <div class="pull-right">
+                        <img src="{{ asset($post->avatar) }}?w=50&h=50&fit=crop" alt="{{ $post->name }}">
+                    </div>
                 </div>
 
-                <div class="panel-body row">
-                    <div class="col-md-6">
-                        <img class="img-responsive" width="150px" src="{{ asset($post->avatar) }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="well" style="width: 100%; height: 100px; overflow: hidden">{{ $post->content }}</div>
+                <div class="media-left media-middle">
+                    <a href="#" onclick="event.preventDefault()">
+                        <img class="media-object" src="{{ asset($post->avatar) }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
+                    </a>
+                </div>
+
+                <div class="media-body">
+                    <div class="panel-body" style="max-height: 100px;">
+                        <p class="well dl-well-fix">{{ $post->content }}</p>
                     </div>
                 </div>
+
+                {{--<div class="panel-footer"></div>--}}
             </div>
         </div>
         @endforeach

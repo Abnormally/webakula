@@ -10,6 +10,7 @@ $(document).ready(function () {
         guest_name: $('#guest-name'),
         guest_email: $('#guest-email'),
         guest_post: $('#guest-post'),
+        guest_book_holder: $('#guest-book-holder'),
     };
 
     gpost.post_form.validator();
@@ -23,6 +24,7 @@ $(document).ready(function () {
         gpost.guest_post.val(null);
         gpost.post_form.hide();
         gpost.post_button.show();
+        gpost.guest_book_holder.show();
         $('#avatar').val(null);
     }
 
@@ -32,6 +34,7 @@ $(document).ready(function () {
 
     gpost.post_button.on('click', function () {
         gpost.post_button.hide();
+        gpost.guest_book_holder.hide();
         gpost.post_form.show();
     });
 
@@ -87,7 +90,7 @@ $(document).ready(function () {
 
                 new Noty({
                     layout: 'bottomLeft',
-                    type: 'danger',
+                    type: 'warning',
                     text: 'Произошёл сбой на сервере. Приносим извенения за неполадки.',
                 }).show();
             }
