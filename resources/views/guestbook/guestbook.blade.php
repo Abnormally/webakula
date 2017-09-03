@@ -60,6 +60,9 @@
                     <label class="btn btn-danger dl-radio-button-fix"><input type="radio" name="reaction" value="0"><span class="fa fa-thumbs-down"></span> Плохо</label>
                 </div>
                 <div class="radio-inline">
+                    <label class="btn btn-default dl-radio-button-fix"><input type="radio" name="reaction" value="1"><span class="fa fa-archive"></span> Нейтрально</label>
+                </div>
+                <div class="radio-inline">
                     <label class="btn btn-success dl-radio-button-fix"><input type="radio" name="reaction" value="2"><span class="fa fa-thumbs-up"></span> Отлично</label>
                 </div>
             </div>
@@ -88,7 +91,7 @@
 
                 <div class="media-left media-middle">
                     <a href="#" onclick="event.preventDefault()">
-                        <img class="media-object" src="{{ asset($post->avatar) }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
+                        <img class="media-object" src="{{ asset($post->avatar ? $post->avatar : "img/guestbook/0.jpg") }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
                     </a>
                 </div>
 
@@ -108,8 +111,4 @@
         {{ $posts->links() }}
     </nav>
 </article>
-@endsection
-
-@section('scripts')
-<script type="text/javascript" src="{{ asset('js/guestbook.js') }}"></script>
 @endsection

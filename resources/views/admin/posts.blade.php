@@ -6,7 +6,7 @@
     <div class="container">
         @foreach($temp as &$post)
         <div class="col-md-6">
-            <div class="media panel {{ $posts_headings[$post->reaction] }}">
+            <div id="post{{ $post->id }}" class="media panel panel-default dl-panel-default-fix">
                 <div class="panel-heading">
                     <a href="mailto:{{ $post->email }}"><h4 class="media-heading">{{ $post->name }}</h4></a>
                     <div class="pull-right">
@@ -16,7 +16,7 @@
 
                 <div class="media-left media-middle">
                     <a href="#" onclick="event.preventDefault()">
-                        <img class="media-object" src="{{ asset($post->avatar) }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
+                        <img class="media-object" src="{{ asset($post->avatar ? $post->avatar : "img/guestbook/0.jpg") }}?w=150&h=150&fit=crop" alt="{{ $post->name }}">
                     </a>
                 </div>
 

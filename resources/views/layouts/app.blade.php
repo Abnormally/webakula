@@ -9,8 +9,6 @@
     <title>@yield('title', 'Заголовок страницы')</title>
     <meta name="description" content="@yield('description', 'Описание страницы')">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/all.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/dl_fix.css') }}">
     @yield('stylesheets')
 </head>
 
@@ -30,7 +28,6 @@
     {{-- Scripts --}}
     <div style="display: none">
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/all.js') }}"></script>
         @if(!Auth::guest() && Auth::user()->role > 2)
         <script type="text/javascript" src="{{ asset('js/admin.js') }}"></script>
         @endif

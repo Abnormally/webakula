@@ -67,21 +67,30 @@ class HomeController extends Controller
             if (!Auth::guest()) $post->user_id = Auth::id();
             $post->name = $response['name'];
             $post->email = Auth::guest() ? $request['email'] : Auth::user()->email;
-            $post->avatar = 'img/guestbook/0.jpg';
             $post->content = $request['text'];
+
+            if ($request->has('reaction')) {
+                $reaction = (int) $request->get('reaction');
+                if ($reaction > -1 && $reaction < 3) $post->reaction = $reaction;
+            }
 
             $post->save();
 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 if(starts_with($file->getMimeType(), 'image')) {
-                    $file->storePubliclyAs('images/public/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
+                    $file->storePubliclyAs('public/images/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
                     $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
 
                     $post->update();
                 }
+            } elseif (!Auth::guest() && Auth::user()->avatar) {
+                $post->avatar = Auth::user()->avatar;
+                $post->update();
             }
         }
+
+        $response['reaction'] = $request->get('reaction');
 
         return json_encode($response);
     }

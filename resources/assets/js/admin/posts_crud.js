@@ -28,6 +28,7 @@ $(document).ready(function () {
 
                 $('#post' + post_id)
                     .removeClass('panel-default')
+                    .removeClass('dl-panel-default-fix')
                     .removeClass('panel-danger')
                     .removeClass('panel-primary')
                     .addClass('panel-success');
@@ -52,6 +53,7 @@ $(document).ready(function () {
 
                 $('#post' + post_id)
                     .removeClass('panel-default')
+                    .removeClass('dl-panel-default-fix')
                     .removeClass('panel-danger')
                     .removeClass('panel-success')
                     .addClass('panel-primary');
@@ -76,6 +78,7 @@ $(document).ready(function () {
 
                 $('#post' + post_id)
                     .removeClass('panel-default')
+                    .removeClass('dl-panel-default-fix')
                     .removeClass('panel-success')
                     .removeClass('panel-primary')
                     .addClass('panel-danger');

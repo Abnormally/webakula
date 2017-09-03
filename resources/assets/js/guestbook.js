@@ -10,10 +10,21 @@ $(document).ready(function () {
         guest_name: $('#guest-name'),
         guest_email: $('#guest-email'),
         guest_post: $('#guest-post'),
+        guest_reaction: $('input[name="reaction"]'),
+        guest_reaction_val: 1,
         guest_book_holder: $('#guest-book-holder'),
     };
 
     gpost.post_form.validator();
+
+    function clear_class() {
+        gpost.post_form
+            .removeClass('panel-default')
+            .removeClass('dl-panel-default-fix')
+            .removeClass('panel-danger')
+            .removeClass('panel-success')
+            .removeClass('panel-primary')
+    }
 
     function clear_form() {
         $('.with-errors').empty();
@@ -23,6 +34,8 @@ $(document).ready(function () {
         gpost.guest_email.val(null);
         gpost.guest_post.val(null);
         gpost.post_form.hide();
+        clear_class();
+        gpost.post_form.addClass('panel-primary');
         gpost.post_button.show();
         gpost.guest_book_holder.show();
         $('#avatar').val(null);
@@ -38,6 +51,25 @@ $(document).ready(function () {
         gpost.post_form.show();
     });
 
+    gpost.guest_reaction.on('click', function (event) {
+        gpost.guest_reaction_val = parseInt(event.currentTarget.defaultValue);
+        clear_class();
+
+        switch (gpost.guest_reaction_val) {
+            case 0:
+                gpost.post_form.addClass('panel-danger');
+                break;
+            case 1:
+                gpost.post_form.addClass('panel-default').addClass('dl-panel-default-fix');
+                break;
+            case 2:
+                gpost.post_form.addClass('panel-success');
+                break;
+            default:
+                gpost.post_form.addClass('panel-primary');
+        }
+    });
+
     gpost.post_send.on('click', function () {
         if (gpost.post_send.hasClass('disabled')) return;
 
@@ -49,6 +81,7 @@ $(document).ready(function () {
         formData.append('name', gpost.guest_name.val());
         formData.append('email', gpost.guest_email.val());
         formData.append('text', gpost.guest_post.val());
+        if (gpost.guest_reaction_val !== 1) formData.append('reaction', gpost.guest_reaction_val);
 
         $.ajax({
             url: laroute.route('guestbook.post'),
@@ -58,6 +91,8 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
+                console.log(response);
+
                 if (response.has_errors) {
                     if (response.errors.name) {
                         gpost.guest_name.parent().parent().addClass('has-danger').addClass('has-error');

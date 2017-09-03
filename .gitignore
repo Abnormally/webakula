@@ -17,9 +17,5 @@ storage/*.key
 Homestead.yaml
 Homestead.json
 
-# Project
-!storage/app/public/images/guestbook/emo
-!storage/app/public/images/guestbook/0.jpg
-
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
