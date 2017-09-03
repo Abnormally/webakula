@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\GuestbookPost;
 
@@ -28,6 +27,7 @@ class HomeController extends Controller
     public function guestbook() {
         return view('guestbook.guestbook', [
             'posts' => GuestbookPost::getPagination(),
+            'posts_headings' => ['panel-danger', 'panel-default dl-panel-default-fix', 'panel-success'],
         ]);
     }
 
@@ -64,22 +64,33 @@ class HomeController extends Controller
 
         if (!$validator->errors()->any()) {
             $post = new GuestbookPost;
-            $post->user_id = Auth::guest() ? 0 : Auth::id();
+            if (!Auth::guest()) $post->user_id = Auth::id();
             $post->name = $response['name'];
             $post->email = Auth::guest() ? $request['email'] : Auth::user()->email;
-            $post->avatar = 'img/guestbook/0.jpg';
             $post->content = $request['text'];
+
+            if ($request->has('reaction')) {
+                $reaction = (int) $request->get('reaction');
+                if ($reaction > -1 && $reaction < 3) $post->reaction = $reaction;
+            }
 
             $post->save();
 
-            if (Input::hasFile('file')) {
-                $file = Input::file('file');
-                $file->move('img/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
-                $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                if(starts_with($file->getMimeType(), 'image')) {
+                    $file->storePubliclyAs('public/images/guestbook', $post->id . '.' . $file->getClientOriginalExtension());
+                    $post->avatar = 'img/guestbook/' . $post->id . '.' . $file->getClientOriginalExtension();
 
+                    $post->update();
+                }
+            } elseif (!Auth::guest() && Auth::user()->avatar) {
+                $post->avatar = Auth::user()->avatar;
                 $post->update();
             }
         }
+
+        $response['reaction'] = $request->get('reaction');
 
         return json_encode($response);
     }

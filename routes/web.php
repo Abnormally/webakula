@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('img/{path}', function (\League\Glide\Server $server, Illuminate\Http\Request $request) {
+    $server->outputImage($request->path(), $request->query->all());
+})->where('path', '.+');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'guestbook'], function () {

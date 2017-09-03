@@ -39,7 +39,7 @@ class AdminController extends Controller
      */
     public function unpublishedPage() {
         return view('admin.posts', [
-            'posts' => GuestbookPost::getPagination(0, 1)
+            'posts' => GuestbookPost::getPagination(0, 1),
         ]);
     }
 
@@ -50,7 +50,7 @@ class AdminController extends Controller
      */
     public function publishedPage() {
         return view('admin.posts', [
-            'posts' => GuestbookPost::getPagination(2, 1)
+            'posts' => GuestbookPost::getPagination(2, 1),
         ]);
     }
 
@@ -61,7 +61,7 @@ class AdminController extends Controller
      */
     public function hiddenPage() {
         return view('admin.posts', [
-            'posts' => GuestbookPost::getPagination(3, 1)
+            'posts' => GuestbookPost::getPagination(3, 1),
         ]);
     }
 

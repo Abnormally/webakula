@@ -12,8 +12,9 @@
         "fzaninotto/faker": "^1.6",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "needim/noty": "^3.1",
-		"lord/laroute" : "2.*"
+        "league/glide-laravel": "^1.0",
+        "lord/laroute": "2.*",
+        "needim/noty": "^3.1"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
