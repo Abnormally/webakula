@@ -17,7 +17,7 @@ mix.js('resources/assets/js/app.js', 'public/js')
         'resources/assets/js/laroute.js',
         'resources/assets/js/noty.min.js',
         'resources/assets/js/validator.min.js',
-        //'resources/assets/js/guestbook.js'
+        // 'resources/assets/js/guestbook.js'
     ], 'public/js/all.js')
     .scripts([
         'resources/assets/js/admin/badges.js',
@@ -27,6 +27,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
     .styles([
         'resources/assets/css/font-awesome.min.css',
         'resources/assets/css/noty.css',
-        'resources/assets/css/dl_fix.css'
+        // 'resources/assets/css/dl_fix.css'
     ], 'public/css/all.css')
 ;
