@@ -75,8 +75,7 @@ class AdminController extends Controller
         $post = GuestbookPost::find($id);
         if (!$post) return 'false';
 
-        $post->status = null;
-        $post->update();
+        $post->delete();
 
         return 'true';
     }

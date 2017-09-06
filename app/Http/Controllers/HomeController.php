@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\GuestbookPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\GuestbookPost;
 
 class HomeController extends Controller
 {
@@ -65,9 +65,9 @@ class HomeController extends Controller
         if (!$validator->errors()->any()) {
             $post = new GuestbookPost;
             if (!Auth::guest()) $post->user_id = Auth::id();
-            $post->name = $response['name'];
+            $post->name = htmlspecialchars($response['name']);
             $post->email = Auth::guest() ? $request['email'] : Auth::user()->email;
-            $post->content = $request['text'];
+            $post->content = htmlspecialchars($request['text']);
 
             if ($request->has('reaction')) {
                 $reaction = (int) $request->get('reaction');
