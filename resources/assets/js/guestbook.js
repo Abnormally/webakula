@@ -91,8 +91,6 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
-
                 if (response.has_errors) {
                     if (response.errors.name) {
                         gpost.guest_name.parent().parent().addClass('has-danger').addClass('has-error');

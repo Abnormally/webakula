@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GuestbookPost extends Model
 {
+    use SoftDeletes;
+
     protected static $perPageGuest;
     protected static $perPageAdmin;
 
@@ -29,7 +32,11 @@ class GuestbookPost extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'content', 'user_id',
+        'user_id', 'name', 'email', 'content', 'avatar', 'status', 'reaction'
+    ];
+
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
