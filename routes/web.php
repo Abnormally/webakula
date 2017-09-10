@@ -52,6 +52,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('publish/{id}', 'AdminController@publishPost')
         ->name('admin.publish')
         ->where('id', '[0-9]+');
+
+    Route::post('guestbook/import/', 'AdminController@importPosts')->name('admin.posts.import');
 });
 
 Route::get('login', [

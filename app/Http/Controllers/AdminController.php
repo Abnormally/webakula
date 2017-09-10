@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GuestbookPost;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -110,5 +111,52 @@ class AdminController extends Controller
         $post->update();
 
         return 'true';
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function importPosts(Request $request) {
+        $file = $request->file('posts');
+        $response = [];
+
+        if ($file && $file->getMimeType() == "text/plain") {
+            $posts = json_decode(file_get_contents($file));
+
+            foreach ($posts as &$post) {
+                $temp_post = null;
+
+                if (isset($post->id) && $post->id !== null) {
+                    $temp_post = GuestbookPost::find($post->id);
+                }
+
+                if ($temp_post) {
+                    foreach ($temp_post->getFillable() as &$field) {
+                        $temp_post->$field = $post->$field;
+                    }
+
+                    $temp_post->update();
+                } else {
+                    $temp_post = new GuestbookPost();
+
+                    foreach ($temp_post->getFillable() as &$field) {
+                        $temp_post->$field = $post->$field;
+                    }
+
+                    $temp_post->save();
+                }
+            }
+
+            $response['errors'] = false;
+        } elseif ($file) {
+            $response['errors'] = true;
+            $response['answer'] = 'Этот файл неприемлем';
+        } else {
+            $response['errors'] = true;
+            $response['answer'] = 'Файл отсутствует';
+        }
+
+        return $response;
     }
 }

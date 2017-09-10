@@ -10,21 +10,21 @@ class ApiController extends Controller
     /**
      * @return string
      */
-    public static function guestbookAll() {
+    public function guestbookAll() {
         return GuestbookPost::withTrashed()->get()->toJson();
     }
 
     /**
      * @return string
      */
-    public static function guestbookNonDeleted() {
+    public function guestbookNonDeleted() {
         return GuestbookPost::all()->toJson();
     }
 
     /**
      * @return string
      */
-    public static function guestbookDeleted() {
+    public function guestbookDeleted() {
         return GuestbookPost::onlyTrashed()->get()->toJson();
     }
 
@@ -32,7 +32,7 @@ class ApiController extends Controller
      * @param int $id
      * @return string
      */
-    public static function guestbookOne($id) {
+    public function guestbookOne($id) {
         $post = GuestbookPost::withTrashed()
             ->where('id', $id)
             ->get();
