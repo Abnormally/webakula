@@ -12071,6 +12071,14 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace Laratrust { 
+
+    class Laratrust {
+         
+    }
+ 
+}
+
 namespace Intervention\Image\Facades { 
 
     class Image {
@@ -14243,6 +14251,8 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class Laratrust extends \Laratrust\Laratrust {}
 
     class Image extends \Intervention\Image\Facades\Image {}
  
